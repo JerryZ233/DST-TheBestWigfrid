@@ -903,7 +903,7 @@ AddPrefabPostInit("wathgrithr", function(inst)
         -- 可以吃素食，但是收益减半
         if food.components.edible.foodtype ~= FOODTYPE.MEAT and
             food.components.edible.foodtype ~= FOODTYPE.GOODIES and
-            IsEatVegetables then
+            IsEatVegetables and IsEatVegetables ~= 0 then
             return health * IsEatVegetables, hunger * IsEatVegetables,
                    sanity * IsEatVegetables
         end
@@ -930,10 +930,9 @@ AddPrefabPostInit("wathgrithr", function(inst)
     if not TheWorld.ismastersim then return inst end
     -- 可以吃素食，但是收益衰减
     if inst.components.eater ~= nil then
+        inst.components.eater.custom_stats_mod_fn = OnCustomStatsModFn
         if IsEatVegetables ~= 0 then
             inst.components.eater:SetDiet({FOODGROUP.OMNI})
-            inst.components.eater.custom_stats_mod_fn = OnCustomStatsModFn
-
         end
 
         -- 吃肉回灵感

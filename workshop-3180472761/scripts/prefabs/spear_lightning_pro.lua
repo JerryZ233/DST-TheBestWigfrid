@@ -528,8 +528,6 @@ local function CommonFn(data)
 end
 
 local function LightningSpearCommonFn_ChargedPro(inst)
-    inst:AddTag("rechargeable")
-
     if _G.IsAoeSkill ~= false then
         inst:AddComponent("aoetargeting")
         inst.components.aoetargeting:SetAllowRiding(true)
@@ -632,6 +630,7 @@ local function LightningSpearPostInitFn_ChargedPro(inst)
         inst:AddComponent("aoespell")
         inst.components.aoespell:SetSpellFn(Lightning_SpellFn_Type0)
 
+        inst:AddTag("rechargeable")
         inst:AddComponent("rechargeable")
         inst.components.rechargeable:SetOnDischargedFn(Lightning_OnDischarged)
         inst.components.rechargeable:SetOnChargedFn(Lightning_OnCharged)

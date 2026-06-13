@@ -619,7 +619,9 @@ ACTIONS.ATTACK.fn = function(act)
                                                         weapon, "strong", 1,
                                                         999,
                                                         weapon:GetPosition())
-                    weapon.components.finiteuses:Repair(1)
+                    if weapon:IsValid() then
+                        weapon.components.finiteuses:Repair(1)
+                    end
                 end)
             end
         end

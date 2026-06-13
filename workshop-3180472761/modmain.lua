@@ -445,12 +445,16 @@ local function Lightning_Charge_OnUpgraded(inst, upgrader, item)
 
     local spear = SpawnPrefab("spear_lightning_pro")
 
-    spear.components.rechargeable:Discharge(spear._cooldown)
-    spear.components.rechargeable:SetPercent(
-        inst.components.rechargeable:GetPercent())
+    if spear.components.rechargeable then
+        spear.components.rechargeable:Discharge(spear._cooldown)
+        spear.components.rechargeable:SetPercent(
+            inst.components.rechargeable:GetPercent())
+    end
 
-    spear.components.finiteuses:SetPercent(
-        inst.components.finiteuses:GetPercent())
+    if spear.components.finiteuses then
+        spear.components.finiteuses:SetPercent(
+            inst.components.finiteuses:GetPercent())
+    end
 
     local container = inst.components.inventoryitem:GetContainer()
     if container ~= nil then

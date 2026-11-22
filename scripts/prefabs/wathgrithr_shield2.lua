@@ -72,6 +72,19 @@ local function OnMiss(inst, owner, target)
     end
 end
 
+local function AddShieldProjectile(inst)
+    inst:AddComponent("projectile")
+    local projectile = inst.components.projectile
+    local originalHit = projectile.Hit
+
+    function projectile:Hit(target, ...)
+        if target ~= nil and target == self.owner then
+            return self:Catch(target)
+        end
+        return originalHit(self, target, ...)
+    end
+end
+
 local function ReticuleTargetFn()
     return Vector3(ThePlayer.entity:LocalToWorldSpace(6.5, 0, 0))
 end
@@ -139,7 +152,7 @@ local function DetachDurabilit(inst)
 
     inst:RemoveComponent("projectile")
 
-    inst:AddComponent("projectile")
+    AddShieldProjectile(inst)
     inst.components.projectile:SetSpeed(10)
     inst.components.projectile:SetCanCatch(true)
     inst.components.projectile:SetOnThrownFn(OnThrown)
@@ -350,7 +363,7 @@ local function fn()
     inst.components.rechargeable:SetOnDischargedFn(OnDischarged)
     inst.components.rechargeable:SetOnChargedFn(OnCharged)
 
-    inst:AddComponent("projectile")
+    AddShieldProjectile(inst)
     inst.components.projectile:SetSpeed(10)
     inst.components.projectile:SetCanCatch(true)
     inst.components.projectile:SetOnThrownFn(OnThrown)
